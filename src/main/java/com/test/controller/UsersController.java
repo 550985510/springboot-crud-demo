@@ -35,8 +35,13 @@ public class UsersController {
     //分页模糊查询用户数据
     @RequestMapping("/selectUsersByLike")
     @ResponseBody
+<<<<<<< HEAD
+    public Msg getUsersByLike(@RequestParam(value="like")String like,@RequestParam(value="pn",defaultValue="1")Integer pn){
+        PageHelper.startPage(pn,5);
+=======
     public Msg getUsersByLike(@RequestParam(value="like")String like){
         PageHelper.startPage(1,5);
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
         List<Users> users=usersService.selectByLike(like);
         PageInfo page=new PageInfo(users,5);
         return Msg.success().add("pageInfo",page);

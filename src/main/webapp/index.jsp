@@ -8,9 +8,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>用户列表</title>
+<<<<<<< HEAD
+    <script type="text/javascript" src="/springboot-test/js/jquery-3.2.1.js"></script>
+    <link href="/springboot-test/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/springboot-test/js/bootstrap/js/bootstrap.min.js"></script>
+=======
     <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
     <link href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/bootstrap/js/bootstrap.min.js"></script>
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
 </head>
 <body>
 <nav style="background-color:#f5f5f5;padding:0 20px;border-bottom:1px solid #e5e5e5;line-height:41px;height:41px;font-size:14px;">
@@ -123,7 +129,11 @@
     </div>
     <!-- 按钮 -->
     <div class="row">
+<<<<<<< HEAD
+        <div class="col-md-3 col-md-offset-5">
+=======
         <div class="col-md-3 col-md-offset-6">
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             <div class="input-group">
                 <input type="text" class="form-control" id="user_select_input" placeholder="请输入字段名">
                 <span class="input-group-btn">
@@ -131,7 +141,12 @@
             	</span>
             </div>
         </div>
+<<<<<<< HEAD
+        <div class="col-md-4">
+            <button class="btn btn-info" id="user_back_btn">返回查找</button>
+=======
         <div class="col-md-3">
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             <button class="btn btn-primary" id="user_add_modal_btn" >新增用户</button>
             <button class="btn btn-danger" id="user_delete_all_btn" style="margin-left:3px">批量删除</button>
         </div>
@@ -195,7 +210,11 @@
                 //解析并显示分页文字信息
                 build_page_info(result);
                 //解析并显示分页条信息
+<<<<<<< HEAD
+                build_page_nav(result,null);
+=======
                 build_page_nav(result);
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             }
         });
     }
@@ -249,7 +268,11 @@
         currentPage = result.extend.pageInfo.pageNum;
     }
     //解析并显示分页条信息
+<<<<<<< HEAD
+    function build_page_nav(result,like){
+=======
     function build_page_nav(result){
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
         //请求前清空分页区域信息
         $("#page_nav_area").empty();
 
@@ -264,11 +287,27 @@
         }else{
             //为元素添加点击事件
             firstPageLi.click(function(){
+<<<<<<< HEAD
+                if(like!=null){
+                    showUsers(1,like);
+                }else {
+                    to_page(1);
+                }
+            });
+
+            prePageLi.click(function(){
+                if (like!=null){
+                    showUsers(result.extend.pageInfo.pageNum-1,like);
+                }else {
+                    to_page(result.extend.pageInfo.pageNum-1);
+                }
+=======
                 to_page(1);
             });
 
             prePageLi.click(function(){
                 to_page(result.extend.pageInfo.pageNum-1);
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             });
         }
 
@@ -283,7 +322,15 @@
             }
             //页码点击事件
             numLi.click(function(){
+<<<<<<< HEAD
+                if (like!=null){
+                    showUsers(item,like);
+                }else {
+                    to_page(item);
+                }
+=======
                 to_page(item);
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             });
             ul.append(numLi);
         });
@@ -297,11 +344,27 @@
         }else{
             //为元素添加点击事件
             lastPageLi.click(function(){
+<<<<<<< HEAD
+                if (like!=null){
+                    showUsers(result.extend.pageInfo.pages+1,like);
+                }else{
+                    to_page(result.extend.pageInfo.pages);
+                }
+            });
+
+            nextPageLi.click(function(){
+                if (like!=null){
+                    showUsers(result.extend.pageInfo.pageNum+1,like);
+                }else {
+                    to_page(result.extend.pageInfo.pageNum+1);
+                }
+=======
                 to_page(result.extend.pageInfo.pages);
             });
 
             nextPageLi.click(function(){
                 to_page(result.extend.pageInfo.pageNum+1);
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             });
         }
 
@@ -329,7 +392,11 @@
     function showUsers(pn,like){
         $.ajax({
             url:"/selectUsersByLike",
+<<<<<<< HEAD
+            data:"like="+like+"&pn="+pn,
+=======
             data:"like="+like,
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
             type:"POST",
             success:function(result){
                 if(result.code == 100){
@@ -339,12 +406,24 @@
                     //解析并显示分页文字信息
                     build_page_info(result);
                     //解析并显示分页条信息
+<<<<<<< HEAD
+                    build_page_nav(result,like);
+=======
                     build_page_nav(result);
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
                 }
             }
         });
     }
 
+<<<<<<< HEAD
+    $("#user_back_btn").click(function(){
+        to_page(1);
+    })
+
+
+=======
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
     //点击查找按钮显示查询结果
     $("#user_select_btn").click(function(){
         var like = $("#user_select_input").val();

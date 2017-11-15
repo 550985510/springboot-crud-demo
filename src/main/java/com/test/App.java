@@ -23,6 +23,8 @@ public class App extends SpringBootServletInitializer {
         return application.sources(App.class);
     }
 
+<<<<<<< HEAD
+=======
     //配置mybatis的分页插件pageHelper
       @Bean
       public PageHelper pageHelper(){
@@ -36,6 +38,7 @@ public class App extends SpringBootServletInitializer {
                  return pageHelper;
              }
 
+>>>>>>> 81de896644044df77f117147d612c816d813c13c
     public static void main(String[] args){
         SpringApplication.run(com.test.App.class,args);
     }
