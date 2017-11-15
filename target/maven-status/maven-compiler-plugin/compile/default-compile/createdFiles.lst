@@ -1,0 +1,14 @@
+com\test\bean\UsersExample$Criterion.class
+com\test\bean\Msg.class
+com\test\dao\UsersMapper.class
+com\test\bean\UsersExample.class
+com\test\controller\GlobalExceptionHandler.class
+com\test\bean\UsersExample$GeneratedCriteria.class
+com\test\bean\Users.class
+com\test\bean\UsersExample$Criteria.class
+com\test\App.class
+com\test\controller\UsersController.class
+com\test\dao\UsersSqlProvider.class
+com\test\service\UsersService.class
+com\test\controller\IndexController.class
+com\test\controller\TestController.class
