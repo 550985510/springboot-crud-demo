@@ -1,7 +1,6 @@
 package com.test.service;
 
 import com.test.bean.Users;
-import com.test.bean.UsersExample;
 import com.test.dao.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class UsersService {
 
     @Transactional
     public List<Users> getAll() {
-        List<Users> users = usersMapper.selectByExample(null);
+        List<Users> users = usersMapper.getAll();
         return users;
     }
 
@@ -31,7 +30,7 @@ public class UsersService {
     @Transactional
     public void saveUser(Users users) {
         // TODO Auto-generated method stub
-        usersMapper.insertSelective(users);
+        usersMapper.saveUser(users);
     }
 
     //检验用户名是否可用
@@ -39,11 +38,11 @@ public class UsersService {
     @Transactional
     public boolean checkUser(String username) {
         // TODO Auto-generated method stub
-        UsersExample example = new UsersExample();
-        UsersExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameEqualTo(username);
-        long count = usersMapper.countByExample(example);
-        return count == 0;
+        if(usersMapper.checkUser(username) != 0){
+            return false;
+        }else {
+            return true;
+        }
     }
 
 
@@ -52,7 +51,7 @@ public class UsersService {
     @Transactional
     public Users getUser(Integer uid) {
         // TODO Auto-generated method stub
-        Users users = usersMapper.selectByPrimaryKey(uid);
+        Users users = usersMapper.getUser(uid);
         return users;
     }
 
@@ -60,24 +59,21 @@ public class UsersService {
     @Transactional
     public void updateUser(Users users) {
         // TODO Auto-generated method stub
-        usersMapper.updateByPrimaryKeySelective(users);
+        usersMapper.updateUser(users);
     }
 
     //删除用户
     @Transactional
     public void deleteUser(Integer uid) {
         // TODO Auto-generated method stub
-        usersMapper.deleteByPrimaryKey(uid);
+        usersMapper.deleteUser(uid);
     }
 
     //批量删除用户
     @Transactional
-    public void deleteBatch(List<Integer> uids) {
+    public void deleteBatch(String uids) {
         // TODO Auto-generated method stub
-        UsersExample example = new UsersExample();
-        UsersExample.Criteria criteria = example.createCriteria();
         //delete from xxx where uid in(1,2,3)
-        criteria.andUidIn(uids);
-        usersMapper.deleteByExample(example);
+        usersMapper.deleteBatch(uids);
     }
 }

@@ -140,7 +140,7 @@
         <div class="col-md-5">
             <button class="btn btn-info" id="user_back_btn">返回查找</button>
             <button class="btn btn-primary" id="user_add_modal_btn" >新增用户</button>
-            <button class="btn btn-danger" id="user_delete_all_btn" style="margin-left:3px">批量删除</button>
+            <button class="btn btn-danger" id="user_delete_all_btn">批量删除</button>
         </div>
     </div>
     <!-- 表格数据 -->
@@ -653,7 +653,7 @@
             //组装用户名
             username += $(this).parents("tr").find("td:eq(2)").text()+",";
             //组装用户uid
-            del_uidstr += $(this).parents("tr").find("td:eq(1)").text()+"-";
+            del_uidstr += $(this).parents("tr").find("td:eq(1)").text()+",";
         });
         //去掉最后多余的逗号
         username = username.substring(0,username.length-1);

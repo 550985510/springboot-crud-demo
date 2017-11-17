@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.test.bean.Users">
+    <constructor>
+      <idArg column="uid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sex" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="age" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    uid, username, sex, age, phone, email
+  </sql>
+  <select id="selectByLike" parameterType="java.lang.String" resultType="com.test.bean.Users">
+    select
+    <include refid="Base_Column_List" />
+    from users where 1=1
+    <if test="_parameter != null">
+      and username LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
+      or email LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
+      or sex LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
+      or uid LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
+    </if>
+  </select>
+
+  <select id="getAll" resultType="com.test.bean.Users">
+    select
+    <include refid="Base_Column_List" />
+    from users
+  </select>
+
+  <insert id="saveUser" parameterType="com.test.bean.Users">
+    insert into users
+    (username,email,sex)
+    VALUE (#{username},#{email},#{sex})
+  </insert>
+
+  <select id="checkUser" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COUNT(uid) FROM users
+    WHERE username = #{_parameter}
+  </select>
+
+  <select id="getUser" parameterType="java.lang.Integer" resultType="com.test.bean.Users">
+    SELECT
+    <include refid="Base_Column_List" />
+    from users
+    WHERE uid=#{uid}
+  </select>
+
+  <update id="updateUser" >
+    UPDATE users
+    SET
+    sex=#{sex},
+    email=#{email}
+    WHERE uid=#{uid}
+  </update>
+
+  <delete id="deleteUser" parameterType="java.lang.Integer">
+    DELETE FROM users
+    WHERE uid=#{uid}
+  </delete>
+
+  <delete id="deleteBatch" parameterType="java.lang.String">
+    DELETE FROM users
+    WHERE uid IN (#{_parameter})
+  </delete>
+</mapper>

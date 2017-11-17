@@ -48,14 +48,8 @@ public class UsersController {
     @ResponseBody
     public Msg deleteUserByUid(@PathVariable("uids")String uids){
         //批量删除
-        if(uids.contains("-")){
-            List<Integer> del_uids = new ArrayList<>();
-            String[] str_uids = uids.split("-");
-            //组装uid的集合
-            for(String string:str_uids){
-                del_uids.add(Integer.parseInt(string));
-            }
-            usersService.deleteBatch(del_uids);
+        if(uids.contains(",")){
+            usersService.deleteBatch(uids);
         }else{
             Integer uid = Integer.parseInt(uids);
             usersService.deleteUser(uid);
@@ -69,7 +63,7 @@ public class UsersController {
     @ResponseBody
     public Msg updateUser(@Valid Users users, BindingResult result){
         if(result.hasErrors()){
-            Map<String,Object> map = new HashMap<>();
+            Map<String,Object> map = new HashMap<String,Object>();
             List<FieldError> errors = result.getFieldErrors();
             for(FieldError fieldError : errors){
                 //封装错误字段和错误信息
@@ -133,7 +127,7 @@ public class UsersController {
     @ResponseBody
     public Msg saveUser(@Valid Users users,BindingResult result){
         if(result.hasErrors()){
-            Map<String,Object> map = new HashMap<>();
+            Map<String,Object> map = new HashMap<String,Object>();
             List<FieldError> errors = result.getFieldErrors();
             for(FieldError fieldError : errors){
                 //封装错误字段和错误信息
