@@ -49,7 +49,12 @@ public class UsersController {
     public Msg deleteUserByUid(@PathVariable("uids")String uids){
         //批量删除
         if(uids.contains(",")){
-            usersService.deleteBatch(uids);
+            List<Integer> del_uids = new ArrayList<Integer>();
+            String[] str_uids = uids.split(",");
+            //组装uid的集合
+            for(String string:str_uids){
+                usersService.deleteUser(Integer.parseInt(string));
+            }
         }else{
             Integer uid = Integer.parseInt(uids);
             usersService.deleteUser(uid);
