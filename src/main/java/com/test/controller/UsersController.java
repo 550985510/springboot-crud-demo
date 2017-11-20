@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.test.bean.Msg;
 import com.test.bean.Users;
 import com.test.service.UsersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,11 +23,13 @@ public class UsersController {
 
     @Autowired
     UsersService usersService;
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @RequestMapping("/users")
     @ResponseBody
     public Msg getUsers(@RequestParam(value="pn",defaultValue="1")Integer pn){
+        logger.info(""+pn);
         PageHelper.startPage(pn,5);
         List<Users> users=usersService.getAll();
         PageInfo page=new PageInfo(users,5);

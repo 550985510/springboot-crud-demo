@@ -4,14 +4,19 @@ import com.github.pagehelper.PageHelper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Properties;
 
-@ComponentScan(basePackages = {"com.test.controller","com.test.service"})
+@SpringBootApplication
+@EnableScheduling
+@EnableTransactionManagement
 @MapperScan(basePackages = "com.test.dao")
 @EnableAutoConfiguration
 public class App extends SpringBootServletInitializer {
