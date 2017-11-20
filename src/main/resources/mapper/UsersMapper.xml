@@ -9,10 +9,11 @@
       <arg column="age" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="birthday" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    uid, username, sex, age, phone, email
+    uid, username, sex, age, phone, email, birthday
   </sql>
   <select id="selectByLike" parameterType="java.lang.String" resultType="com.test.bean.Users">
     select
@@ -23,6 +24,7 @@
       or email LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
       or sex LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
       or uid LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
+      or birthday LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
     </if>
   </select>
 
@@ -34,8 +36,8 @@
 
   <insert id="saveUser" parameterType="com.test.bean.Users">
     insert into users
-    (username,email,sex)
-    VALUE (#{username},#{email},#{sex})
+    (username,email,sex,birthday)
+    VALUE (#{username},#{email},#{sex},#{birthday})
   </insert>
 
   <select id="checkUser" parameterType="java.lang.String" resultType="java.lang.Integer">

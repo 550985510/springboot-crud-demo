@@ -10,6 +10,8 @@
     <script type="text/javascript" src="/js/vue-resource.js"></script>
     <link href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 
 <body class="dashboard-page">
@@ -35,7 +37,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-10">
-                            <input type="text" name="username" class="form-control" id="username_add_input" placeholder="用户名">
+                            <input type="text" name="username" class="form-control" id="username_add_input" placeholder="用户名" v-model="searchInfo.username">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -43,78 +45,35 @@
                         <label class="col-sm-2 control-label">性别</label>
                         <div class="col-sm-10">
                             <label class="radio-inline">
-                                <input type="radio" name="sex" id="male_add_input" value="男" checked="checked"> 男
+                                <input type="radio" name="sex" id="male_add_input" checked="checked" value="男" v-model="searchInfo.sex"> 男
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="sex" id="female_add_input" value="女"> 女
+                                <input type="radio" name="sex" id="female_add_input" value="女" v-model="searchInfo.sex"> 女
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">邮箱</label>
                         <div class="col-sm-10">
-                            <input type="text" name="email" class="form-control" id="email_add_input" placeholder="Email@163.com">
+                            <input type="text" name="email" class="form-control" id="email_add_input" placeholder="Email@163.com" v-model="searchInfo.email">
                             <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">出生日期</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control form_datetime" id="addtime" name="addtime"  placeholder="请选择您的生日" v-model="searchInfo.birthday">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="user_save_btn">保存</button>
+                <button type="button" class="btn btn-primary" id="user_save_btn" @click="save">保存</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
-<!-- 修改用户模态框 -->
-<div class="modal fade" id="userUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">修改用户</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">用户名</label>
-                        <div class="col-sm-10">
-                            <p name="username" class="form-control-static" id="username_update_static"></p>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">性别</label>
-                        <div class="col-sm-10">
-                            <label class="radio-inline">
-                                <input type="radio" name="sex" id="male_update_input" value="男"> 男
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="sex" id="female_update_input" value="女"> 女
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">邮箱</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="email" class="form-control" id="email_update_input" placeholder="Email@163.com">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="user_update_btn">修改</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <div class="container">
     <!-- 标题 -->
@@ -135,7 +94,7 @@
         </div>
         <div class="col-md-5">
             <button class="btn btn-info" id="user_back_btn" @click="queryBack">返回查找</button>
-            <button class="btn btn-primary" id="user_add_modal_btn" >新增用户</button>
+            <button class="btn btn-primary" id="user_add_modal_btn" @click="addModal" >新增用户</button>
             <button class="btn btn-danger" id="user_delete_all_btn">批量删除</button>
         </div>
     </div>
@@ -152,6 +111,7 @@
                         <th>用户名</th>
                         <th>性别</th>
                         <th>邮箱</th>
+                        <th>生日</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -164,6 +124,7 @@
                         <td>{{users.username}}</td>
                         <td>{{users.sex}}</td>
                         <td>{{users.email}}</td>
+                        <td>{{users.birthday}}</td>
                         <td>
                             <button class="btn btn-primary btn-sm edit_user_btn">
                                 <span class="glyphicon glyphicon-pencil">编辑</span>
@@ -210,6 +171,10 @@
             pageInfo:[],//分页信息
             page:[],//页码号
             searchInfo: {//请求参数
+                username:'',
+                sex:'',
+                email:'',
+                birthday:'',
                 like:'',
                 pn: 1
             }
@@ -243,7 +208,7 @@
             query: function (searchInfo) {
                 var self=this;
                 $.ajax({
-                    url:"/selectUsersByLike",
+                    url:"/selectUserByLike",
                     type:"POST",
                     data:searchInfo,
                     success:function (response) {
@@ -257,6 +222,40 @@
             queryBack: function () {
                 this.searchInfo.like='';
                 this.query(this.searchInfo);
+            },
+            addModal: function () {
+                $('.form_datetime').datetimepicker({
+                    minView: "month", //选择日期后，不会再跳转去选择时分秒
+                    language:  'zh-CN',
+                    format: 'yyyy-mm-dd',
+                    todayBtn:  1,
+                    autoclose: 1,
+                });
+                $("#userAddModal").modal({
+                    //单击模态框背景不关闭
+                    backdrop:"static"
+                });
+            },
+            save: function () {
+                var self=this;
+                //var data=$("#userAddModal form").serialize()//获取字符串形式数据
+                //发送ajax请求保存用户
+                $.ajax({
+                    url:"/save",
+                    type:"POST",
+                    contentType:"application/json",
+                    //默认添加用户的密码与用户名相同
+                    data:JSON.stringify(self.searchInfo),
+                    success:function(result){
+                        if(result.code == 100){
+                            //用户保存成功关闭模态框并来到最后一页显示新增数据
+                            $("#userAddModal").modal('hide');
+                            alert(result.msg);
+                        }
+                    }
+                });
+                self.searchInfo.pn=1000;
+                this.query(self.searchInfo);
             }
         }
 
