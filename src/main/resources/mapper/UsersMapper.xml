@@ -26,6 +26,7 @@
       or uid LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
       or birthday LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
     </if>
+      order BY uid ASC
   </select>
 
   <select id="getAll" resultType="com.test.bean.Users">

@@ -251,7 +251,7 @@
                 self.searchInfo.birthday=$("#addtime").val();
 
                 //校验用户名是否可用
-                if($("#user_save_btn").attr("ajax_va_username") == "error"){
+                if($("#user_save_btn").attr("ajax_va_email") == "error"){
                     return false;
                 };
 
