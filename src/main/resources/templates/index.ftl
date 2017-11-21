@@ -116,17 +116,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="users in users">
+                    <tr v-for="user in users">
                         <td>
                             <input type='checkbox' class='check_item'/>
                         </td>
-                        <td>{{users.uid}}</td>
-                        <td>{{users.username}}</td>
-                        <td>{{users.sex}}</td>
-                        <td>{{users.email}}</td>
-                        <td>{{users.birthday}}</td>
+                        <td>{{user.uid}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.sex}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.birthday}}</td>
                         <td>
-                            <button class="btn btn-primary btn-sm edit_user_btn">
+                            <button class="btn btn-primary btn-sm edit_user_btn" @click="update(user.uid)">
                                 <span class="glyphicon glyphicon-pencil">编辑</span>
                             </button>
                             <button class="btn btn-danger btn-sm delete_user_btn">
@@ -181,7 +181,6 @@
         },
         created: function () {
             this.searchInfo.pn = 1;
-            $('#pageMenu').page('destroy');
             this.query(this.searchInfo);
         },
         methods: {
@@ -244,8 +243,7 @@
                     url:"/save",
                     type:"POST",
                     contentType:"application/json",
-                    //默认添加用户的密码与用户名相同
-                    data:JSON.stringify(self.searchInfo),
+                    data:JSON.stringify(self.searchInfo),//转化成json字符串格式
                     success:function(result){
                         if(result.code == 100){
                             //用户保存成功关闭模态框并来到最后一页显示新增数据
@@ -256,6 +254,9 @@
                 });
                 self.searchInfo.pn=1000;
                 this.query(self.searchInfo);
+            },
+            update: function (uid) {
+                window.location.href="/update?uid="+uid;
             }
         }
 

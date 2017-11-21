@@ -17,4 +17,11 @@ public class IndexController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/update")
+    public String update(Integer uid,ModelMap modelMap){
+        modelMap.addAttribute("uid",uid);
+        return "update";
+    }
+
 }
