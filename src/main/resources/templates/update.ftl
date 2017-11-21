@@ -22,6 +22,7 @@
                     <label class="col-sm-1 control-label">邮箱</label>
                     <div class="col-sm-10">
                         <input type="text" name="username" class="form-control" placeholder="用户名" v-model="userInfo.username" disabled>
+                        <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -38,20 +39,22 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">邮箱</label>
                     <div class="col-sm-10">
-                        <input type="text" name="email" class="form-control" placeholder="邮箱" v-model="userInfo.email">
+                        <input type="text" name="email" class="form-control" placeholder="邮箱" v-model="userInfo.email" id="email_add_input">
+                        <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">出生日期</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control form_datetime" id="addtime" name="addtime"  placeholder="请选择您的生日" v-model="userInfo.birthday" value="user.birthday">
+                        <input type="text" class="form-control form_datetime" id="addtime" name="addtime"  placeholder="请选择您的生日" v-model="userInfo.birthday">
+                        <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group">
                 <label class="col-sm-1 control-label">操作</label>
                     <div class="col-sm-10">
                         <input type="button" name="button" id="button1" value="返回" onclick="history.go(-1)" class="btn">
-                        <input type="button" class="btn" value="提交" @click="updateUser(uid)">
+                        <input type="button" class="btn" id="user_save_btn" value="提交" @click="updateUser(uid)">
                     </div>
                 </div>
             </form>
@@ -77,13 +80,18 @@
             },
             watch:{
                 "userInfo.birthday":function () {
+                    //console.log(this.userInfo.birthday);
                     $('.form_datetime').datetimepicker({
                         minView: "month", //选择日期后，不会再跳转去选择时分秒
                         language:  'zh-CN',
                         format: 'yyyy-mm-dd',
                         todayBtn:  1,
-                        autoclose: 1,
+                        autoclose: 1
                     });
+                },
+                "userInfo.email":function () {
+                    console.log(this.userInfo.email);
+                    this.checkEmail();
                 }
             },
             methods: {
@@ -101,6 +109,8 @@
                 },
                 updateUser: function (uid) {
                     var self = this;
+                    self.userInfo.birthday=$("#addtime").val();
+                    //将双向绑定的生日付给userInfo
                     $.ajax({
                         url:"/updateUser/"+uid,
                         type:"PUT",
@@ -123,6 +133,39 @@
                         format: 'yyyy-mm-dd',
                         todayBtn:  1,
                         autoclose: 1,
+                    });
+                },
+                //显示校验结果提示信息
+                show_validate_msg:function (ele,status,msg) {
+                    //清除当前元素样式(校验状态)
+                    $(ele).parent().removeClass("has-success has-error");
+
+                    if(status == "success"){
+                        $(ele).parent().addClass("has-success");
+                        $(ele).next("span").text(msg);
+                    }else if(status == "error"){
+                        $(ele).parent().addClass("has-error");
+                        $(ele).next("span").text(msg);
+                    }
+                },
+                checkEmail: function () {
+                    var email = $("#email_add_input").val();
+                    if (email==""){email="email@qq.com";}//绑定之前数据为空，为其付个默认值
+                    var self = this;
+                    $.ajax({
+                        url: "/checkUserEmail",
+                        data: "email=" + email,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.code == 100) {
+                                self.show_validate_msg("#email_add_input", "success", "邮箱格式正确");
+                                $("#user_save_btn").attr("ajax_va_email", "success");
+                            } else {
+                                self.show_validate_msg("#email_add_input", "error", response.extend.va_email_msg);
+                                $("#user_save_btn").attr("ajax_va_email", "error");
+                            }
+                        }
                     });
                 }
             }
