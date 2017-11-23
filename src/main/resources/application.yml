@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+      view:
+        prefix: /WEB-INF/
+        suffix:  jsp
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot
+    username: root
+    password: root
+    driver-class-name:  com.mysql.jdbc.Driver
+
+
+#pagehelper
+pagehelper:
+  helperDialect:  mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
