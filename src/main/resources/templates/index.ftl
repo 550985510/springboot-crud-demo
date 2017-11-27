@@ -87,7 +87,7 @@
     <div class="row">
         <div class="col-md-3 col-md-offset-4">
             <div class="input-group">
-                <input type="text" class="form-control" id="user_select_input" placeholder="请输入字段名" v-model="searchInfo.like">
+                <input type="text" class="form-control" id="user_select_input" placeholder="请输入用户名" v-model="searchInfo.like">
                 <span class="input-group-btn">
                		<button class="btn btn-info btn-search" id="user_select_btn" @click="query(searchInfo)">查找</button>
             	</span>

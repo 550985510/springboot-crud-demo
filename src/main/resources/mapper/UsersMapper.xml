@@ -18,14 +18,8 @@
   <select id="selectByLike" parameterType="java.lang.String" resultType="com.test.bean.Users">
     select
     <include refid="Base_Column_List" />
-    from users where 1=1
-    <if test="_parameter != null">
-      and username LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
-      or email LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
-      or sex LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
-      or uid LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
-      or birthday LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
-    </if>
+    from users where
+      username LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
       order BY uid ASC
   </select>
 
