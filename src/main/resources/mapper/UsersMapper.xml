@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.test.dao.UsersMapper">
-  <resultMap id="BaseResultMap" type="com.test.bean.Users">
-    <constructor>
-      <idArg column="uid" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="sex" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="age" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="birthday" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
+<mapper namespace="com.test.mapper.UsersMapper">
   <sql id="Base_Column_List">
     uid, username, sex, age, phone, email, birthday
   </sql>
   <select id="selectByLike" parameterType="java.lang.String" resultType="com.test.bean.Users">
-    select
+    SELECT
     <include refid="Base_Column_List" />
-    from users where
-      username LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
-      order BY uid ASC
+    FROM
+      users
+      WHERE
+          username LIKE CONCAT('%', #{like}, '%')
+          OR sex LIKE concat('%',#{like},'%')
+          OR email LIKE concat('%',#{like},'%')
+          OR birthday LIKE binary concat('%',#{like},'%')
+          OR uid LIKE concat('%',#{like},'%')
+        ORDER BY uid ASC
   </select>
 
   <select id="getAll" resultType="com.test.bean.Users">
@@ -32,12 +27,17 @@
   <insert id="saveUser" parameterType="com.test.bean.Users">
     insert into users
     (username,email,sex,birthday)
-    VALUE (#{username},#{email},#{sex},#{birthday})
+    VALUE
+    (
+    #{username},#{email},#{sex},#{birthday}
+    )
   </insert>
 
-  <select id="checkUser" parameterType="java.lang.String" resultType="java.lang.Integer">
-    SELECT COUNT(uid) FROM users
-    WHERE username = #{_parameter}
+  <select id="checkUser" resultType="java.lang.Integer">
+    SELECT
+    COUNT(uid)
+    FROM users
+    WHERE username = #{username}
   </select>
 
   <select id="getUser" parameterType="java.lang.Integer" resultType="com.test.bean.Users">
@@ -50,8 +50,8 @@
   <update id="updateUser" >
     UPDATE users
     SET
-    sex=#{sex},
-    email=#{email}
+        sex=#{sex},
+        email=#{email}
     <if test="birthday != null">
       ,birthday=#{birthday}
     </if>
@@ -63,8 +63,4 @@
     WHERE uid=#{uid}
   </delete>
 
-  <delete id="deleteBatch" parameterType="java.lang.String">
-    DELETE FROM users
-    WHERE uid IN (#{_parameter})
-  </delete>
 </mapper>

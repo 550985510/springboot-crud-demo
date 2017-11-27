@@ -1,11 +1,9 @@
 package com.test.service.impl;
 
 import com.test.bean.Users;
-import com.test.dao.UsersMapper;
+import com.test.mapper.UsersMapper;
 import com.test.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -69,11 +67,4 @@ public class UsersServiceImpl implements UsersService{
         usersMapper.deleteUser(uid);
     }
 
-    //批量删除用户
-    @Override
-    public void deleteBatch(String uids) {
-        // TODO Auto-generated method stub
-        //delete from xxx where uid in(1,2,3)
-        usersMapper.deleteBatch(uids);
-    }
 }

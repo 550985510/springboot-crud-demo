@@ -1,9 +1,8 @@
-package com.test.dao;
+package com.test.mapper;
 
 import com.test.bean.Users;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface UsersMapper {
 
@@ -12,8 +11,6 @@ public interface UsersMapper {
     List<Users> getAll();
 
     Integer checkUser(String username);
-
-    void deleteBatch(String uids);
 
     void saveUser(Users users);
 

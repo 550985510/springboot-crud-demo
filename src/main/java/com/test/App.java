@@ -17,7 +17,7 @@ import java.util.Properties;
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.test.dao")
+@MapperScan(basePackages = "com.test.mapper")
 @EnableAutoConfiguration
 public class App extends SpringBootServletInitializer {
 

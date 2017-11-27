@@ -8,7 +8,6 @@ public interface UsersService {
 
      List<Users> getAll();
 
-
      List<Users> selectByLike(String like);
 
     //用户保存
@@ -27,6 +26,4 @@ public interface UsersService {
     //删除用户
      void deleteUser(Integer uid);
 
-    //批量删除用户
-     void deleteBatch(String uids);
 }
