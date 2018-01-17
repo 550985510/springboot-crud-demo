@@ -7,7 +7,7 @@ spring:
         prefix: /WEB-INF/
         suffix:  jsp
   datasource:
-    url: jdbc:mysql://localhost:3306/springboot
+    url: jdbc:mysql://112.74.102.9:3306/springboot
     username: root
     password: root
     driver-class-name:  com.mysql.jdbc.Driver
