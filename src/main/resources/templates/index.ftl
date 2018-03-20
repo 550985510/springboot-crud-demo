@@ -168,6 +168,8 @@
     var app = new Vue({
         el: '#userList',
         data: {
+
+
             users: [],//用户信息
             pageInfo:[],//分页信息
             page:[],//页码号
